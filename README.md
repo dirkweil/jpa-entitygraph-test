@@ -3,7 +3,7 @@ jpa-entitygraph-test
 
 Test for various JPA 2.1 entity graph issues.
 
-Tests can be run with different providers, currently EclipseLink 2.5.1 and Hibernate 4.3.0.CR1:
+Tests can be run with different providers, currently EclipseLink 2.5.1 and Hibernate 4.3.0.CR2:
 
 - EclipseLink: mvn -DskipTests=false test
   If you want to run the tests within Eclipse, do not activate any maven profile ("eclipselink" ist active by default) and specify an agent specified on the command line:

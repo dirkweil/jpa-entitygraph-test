@@ -5,7 +5,7 @@
   <parent>
     <groupId>de.gedoplan</groupId>
     <artifactId>build-master</artifactId>
-    <version>7.0.11</version>
+    <version>7.0.13</version>
   </parent>
 
   <artifactId>jpa-entitygraph-test</artifactId>
@@ -229,8 +229,60 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  
-    <profiles>
+
+  <profiles>
+    <!-- EclipseLink -->
+    <profile>
+      <id>eclipselink</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+
+      <properties>
+        <javax.persistence.provider>org.eclipse.persistence.jpa.PersistenceProvider</javax.persistence.provider>
+        <persistentClasses><![CDATA[
+          <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        ]]></persistentClasses>
+      </properties>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>copy-agent</id>
+                <phase>process-test-classes</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>org.eclipse.persistence</groupId>
+                      <artifactId>org.eclipse.persistence.jpa</artifactId>
+                      <version>${eclipselink.version}</version>
+                      <outputDirectory>${project.build.directory}/agents</outputDirectory>
+                      <destFileName>eclipseLinkAgent.jar</destFileName>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <argLine>-javaagent:${project.build.directory}/agents/eclipseLinkAgent.jar</argLine>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
     <!-- Hibernate -->
     <profile>
       <id>hibernate</id>
@@ -242,6 +294,18 @@
         <javax.persistence.provider>org.hibernate.ejb.HibernatePersistence</javax.persistence.provider>
         <persistentClasses></persistentClasses>
       </properties>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <argLine></argLine>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 

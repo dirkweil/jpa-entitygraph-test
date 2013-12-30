@@ -16,7 +16,7 @@
   <properties>
     <eclipselink.version>2.5.1</eclipselink.version>
     <h2.version>1.3.171</h2.version>
-    <hibernate.version>4.3.0.CR2</hibernate.version>
+    <hibernate.version>4.3.0.Final</hibernate.version>
 
     <javax.persistence.provider>org.eclipse.persistence.jpa.PersistenceProvider</javax.persistence.provider>
     <persistentClasses><![CDATA[
